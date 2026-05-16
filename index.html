@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Nexus Cyber Host</title></head>
+<body style="background:#000; color:#0f0; font-family:monospace; text-align:center;">
+    <h1>[ NEXUS-CYBER-HOST ]</h1>
+    <input type="file" id="fileInput">
+    <button onclick="upload()">UPLOAD FILE</button>
+    <p id="status"></p>
+    <script>
+        async function upload() {
+            const file = document.getElementById('fileInput').files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            document.getElementById('status').innerText = "Uploading...";
+            const res = await fetch('/api/upload', {method:'POST', body:formData});
+            const data = await res.json();
+            if(data.success) document.getElementById('status').innerHTML = `Success! Link: <a href="${data.link}" style="color:white">${data.link}</a>`;
+            else document.getElementById('status').innerText = "Failed!";
+        }
+    </script>
+</body>
+</html>
